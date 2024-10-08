@@ -6,6 +6,7 @@ export const WeatherApp = () => {
 
   const [city, setCity] = useState('')
   const [weatherData, setWeatherData] = useState(null)
+  const [error, setError ] = useState('')
 
   const url = "https://api.openweathermap.org/data/2.5/weather";
   const API_KEY = 'ae2e81395c4857ed1b907352b8cc60b2';
@@ -15,20 +16,37 @@ export const WeatherApp = () => {
     try {
       const response = await fetch(`${url}?q=${city}&appid=${API_KEY}&lang=es`)
       const data = await response.json();
-      setWeatherData(data)
+      if(response.ok){
+        setWeatherData(data)
+        setError('')
+      }else{
+        setError(`Error: ${data.message}`);
+        setWeatherData(null);
+      }
     }catch(error){
-      console.error('Ha habido un error: ', error);
+      setError(error.message);
+      setWeatherData(null)
     }
   }
 
   const handleCityChange = (event) => {
-    setCity(event.target.value)
+      setCity(event.target.value)
+
   };
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetchWeatherData()
+
+    if (city.trim() === '') {
+      setError('Por favor ingrese el nombre de una ciudad.');
+      setWeatherData(null);
+      return;
+    }
+
+    fetchWeatherData();
+
+    
   };
 
   return (
@@ -38,6 +56,8 @@ export const WeatherApp = () => {
         <input type="text" placeholder="Ingrese una ciudad" value={city} onChange={handleCityChange}/>
         <button type="submit">Buscar</button>
       </form>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>} 
 
       {weatherData && (
         <div>
