@@ -1,12 +1,13 @@
 body {
     font-family: 'Merriweather Sans', sans-serif;
-    background-color: rgb(1, 88, 114);
+    background-color: rgb(20, 54, 65);
 }
 
 .container {
     max-width: 60%;
     margin: 0 auto;
-    padding: 20px;
+    padding: 20px auto;
+    border-radius: 2%;
     text-align: center;
     background-color: rgb(4, 74, 96);
     box-shadow: 0 2px 4px rgb(44, 44, 44);
