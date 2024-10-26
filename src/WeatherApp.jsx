@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './WeatherApp.css'
 
 
@@ -9,8 +9,10 @@ export const WeatherApp = () => {
   const [error, setError ] = useState('')
 
   const url = "https://api.openweathermap.org/data/2.5/weather";
-  const API_KEY = 'ae2e81395c4857ed1b907352b8cc60b2';
+  const API_KEY = '537f8b695be0ad56a0fcf5ab96ca6892';
   const difKelvin = 273.15 
+
+  const focusRef = useRef();
 
   const fetchWeatherData = async () => {
     try {
@@ -49,11 +51,15 @@ export const WeatherApp = () => {
     
   };
 
+  useEffect(()=>{
+    focusRef.current.focus();
+  },[]);
+
   return (
     <div className='container'>
       <h1>Aplicacion de Clima</h1>
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Ingrese una ciudad" value={city} onChange={handleCityChange}/>
+        <input ref={focusRef} type="text" placeholder="Ingrese una ciudad" value={city} onChange={handleCityChange}/>
         <button type="submit">Buscar</button>
       </form>
 
